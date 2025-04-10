@@ -181,9 +181,9 @@ public class BasicContainer<T extends IMDrawable> extends MDrawable implements C
 
         var matrices = context.pose();
 
-        matrices.pushPose();
+        matrices.pushMatrix();
 
-        matrices.translate(0, 0, 50);
+        matrices.translate(0, 0, matrices);
 
         //context.fill(0, 0, renderWidth, renderHeight, MaterialColors.Blue500.getColor());
 
@@ -193,19 +193,19 @@ public class BasicContainer<T extends IMDrawable> extends MDrawable implements C
             {
                 var haveDepth = d.getDepth() != 0;
 
-                if (haveDepth)
-                    matrices.translate(0, 0, -d.getDepth());
+                //if (haveDepth)
+                //    matrices.translate(0, 0, -d.getDepth());
 
                 d.render(context, mouseX, mouseY, delta);
 
-                if (haveDepth)
-                    matrices.translate(0, 0, d.getDepth());
+                //if (haveDepth)
+                //    matrices.translate(0, 0, d.getDepth());
             });
         }
         finally
         {
             //matrices.translate(0, 0, -50);
-            matrices.popPose();
+            matrices.popMatrix();
         }
     }
 

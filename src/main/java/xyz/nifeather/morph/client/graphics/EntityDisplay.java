@@ -20,6 +20,7 @@ import net.minecraft.client.model.geom.builders.UVPair;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
+import xyz.nifeather.morph.client.graphics.color.MaterialColors;
 
 public class EntityDisplay extends MDrawable
 {
@@ -281,12 +282,24 @@ public class EntityDisplay extends MDrawable
             scale = Math.round((Math.min(this.getRenderHeight(), this.getRenderWidth()) * 0.8f) / scaledMaxEntityBorder);
             scale = Math.max(1, scale);
 
-            InventoryScreen.renderEntityInInventoryFollowsMouse(context,
-                    0, 0, renderWidth, renderHeight,
+            var xStart = (int)getScreenSpaceX();
+            var xEnd = xStart + renderWidth;
+            var yStart = (int)getScreenSpaceY();
+            var yEnd = yStart + renderHeight;
+
+            //context.fill(0, 0, renderWidth, renderHeight, MaterialColors.Teal500.getColor());
+            //context.drawString(Minecraft.getInstance().font, "xS: %s, xE: %s, yS: %s, yE: %s".formatted(xStart, xEnd, yStart, yEnd), 0, 0, 0xFFFFFFFF);
+
+            context.pose().translate(-xScreenSpaceOffset, -yScreenSpaceOffset);
+
+            renderEntityInInventoryFollowsMouse(context,
+                    xStart, yStart, xEnd, yEnd,
                     scale * initialEntitySize.get(),
                     0.0625f + entityYOffset,
                     (float)mouseX - getScreenSpaceX(), (float)mouseY - getScreenSpaceY(),
                     displayingEntity);
+
+            context.pose().translate(xScreenSpaceOffset, yScreenSpaceOffset);
 
             PlayerRenderHelper.instance().skipRender = false;
         }
@@ -297,4 +310,38 @@ public class EntityDisplay extends MDrawable
             t.printStackTrace();
         }
     }
+
+    public static void renderEntityInInventoryFollowsMouse(
+            GuiGraphics guiGraphics, int i, int j, int k, int l, int m, float f, float g, float h, LivingEntity livingEntity
+    ) {
+        float n = (i + k) / 2.0F;
+        float o = (j + l) / 2.0F;
+        //guiGraphics.enableScissor(i, j, k, l);
+        float p = (float)Math.atan((n - g) / 40.0F);
+        float q = (float)Math.atan((o - h) / 40.0F);
+        Quaternionf quaternionf = new Quaternionf().rotateZ((float) Math.PI);
+        Quaternionf quaternionf2 = new Quaternionf().rotateX(q * 20.0F * (float) (Math.PI / 180.0));
+        quaternionf.mul(quaternionf2);
+        float r = livingEntity.yBodyRot;
+        float s = livingEntity.getYRot();
+        float t = livingEntity.getXRot();
+        float u = livingEntity.yHeadRotO;
+        float v = livingEntity.yHeadRot;
+        livingEntity.yBodyRot = 180.0F + p * 20.0F;
+        livingEntity.setYRot(180.0F + p * 40.0F);
+        livingEntity.setXRot(-q * 20.0F);
+        livingEntity.yHeadRot = livingEntity.getYRot();
+        livingEntity.yHeadRotO = livingEntity.getYRot();
+        float w = livingEntity.getScale();
+        Vector3f vector3f = new Vector3f(0.0F, livingEntity.getBbHeight() / 2.0F + f * w, 0.0F);
+        float x = m / w;
+        InventoryScreen.renderEntityInInventory(guiGraphics, i, j, k, l, x, vector3f, quaternionf, quaternionf2, livingEntity);
+        livingEntity.yBodyRot = r;
+        livingEntity.setYRot(s);
+        livingEntity.setXRot(t);
+        livingEntity.yHeadRotO = u;
+        livingEntity.yHeadRot = v;
+        //guiGraphics.disableScissor();
+    }
+
 }

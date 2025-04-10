@@ -1,7 +1,12 @@
 package xyz.nifeather.morph.client.screens.disguise;
 
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import net.minecraft.client.gui.components.PlayerSkinWidget;
+import net.minecraft.client.gui.render.GuiLayer;
+import net.minecraft.client.gui.screens.inventory.InventoryScreen;
+import net.minecraft.client.renderer.RenderPipelines;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Vector3f;
 import xyz.nifeather.morph.client.ClientMorphManager;
 import xyz.nifeather.morph.client.EntityCache;
 import xyz.nifeather.morph.client.FeatherMorphClient;
@@ -11,6 +16,7 @@ import xyz.nifeather.morph.client.graphics.color.Colors;
 import xyz.nifeather.morph.client.graphics.color.MaterialColors;
 import xyz.nifeather.morph.client.graphics.container.*;
 import xyz.nifeather.morph.client.graphics.transforms.Recorder;
+import xyz.nifeather.morph.client.mixin.InventoryScreenMixin;
 import xyz.nifeather.morph.client.screens.FeatherScreen;
 import xyz.nifeather.morph.client.screens.WaitingForServerScreen;
 import xiamomc.pluginbase.Bindables.Bindable;
@@ -458,12 +464,12 @@ public class DisguiseScreen extends FeatherScreen
     {
         super.renderBackground(context, mouseX, mouseY, delta);
 
-        context.blit(RenderType::guiTextured, Screen.MENU_BACKGROUND,
+        context.blit(RenderPipelines.GUI_TEXTURED, Screen.MENU_BACKGROUND,
                 0, 0,
                 0, -topHeight.get(),
                 this.width, this.topHeight.get(), 32, 32);
 
-        context.blit(RenderType::guiTextured, Screen.MENU_BACKGROUND,
+        context.blit(RenderPipelines.GUI_TEXTURED, Screen.MENU_BACKGROUND,
                 0, this.height - bottomHeight.get(),
                 0, 0,
                 this.width, this.height, 32, 32);

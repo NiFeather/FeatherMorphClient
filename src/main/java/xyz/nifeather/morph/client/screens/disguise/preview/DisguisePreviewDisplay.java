@@ -23,9 +23,7 @@ public class DisguisePreviewDisplay extends EntityDisplay
     {
         var matrices = context.pose();
 
-        matrices.pushPose();
-
-        matrices.translate(0, 0, 100);
+        matrices.pushMatrix();
 
         var mX = Math.round(this.getScreenSpaceX() + this.getRenderWidth() / 2f - 30);
         var mY = Math.round(this.getScreenSpaceY() + this.getRenderHeight() / 2f);
@@ -36,7 +34,7 @@ public class DisguisePreviewDisplay extends EntityDisplay
         }
         finally
         {
-            matrices.popPose();
+            matrices.popMatrix();
         }
     }
 

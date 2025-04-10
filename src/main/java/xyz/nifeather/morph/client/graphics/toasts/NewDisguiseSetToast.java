@@ -1,6 +1,7 @@
 package xyz.nifeather.morph.client.graphics.toasts;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.client.renderer.RenderPipelines;
 import xyz.nifeather.morph.client.graphics.color.ColorUtils;
 import xiamomc.pluginbase.Annotations.Initializer;
 
@@ -61,6 +62,6 @@ public class NewDisguiseSetToast extends LinedToast
         //RenderSystem.enableBlend();
         //RenderSystem.setShaderTexture(0, TEX);
 
-        context.blitSprite(RenderType::guiTextured, TEX, this.width() / 16 - 2, 6, 20, 20);
+        context.blitSprite(RenderPipelines.GUI_TEXTURED, TEX, this.width() / 16 - 2, 6, 20, 20);
     }
 }

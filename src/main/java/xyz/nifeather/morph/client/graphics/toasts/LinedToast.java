@@ -209,17 +209,17 @@ public class LinedToast extends MorphClientObject implements Toast
         {
             var progressDisplay = Math.max(0, 0.95 - progress);
 
-            matrices.pushPose();
+            matrices.pushMatrix();
 
-            var translateX = (float)this.width() * (1 - progressDisplay);
-            matrices.translate(-translateX, 0, 0);
+            var translateX = this.width() * (1 - progressDisplay);
+            matrices.translate((float)-translateX, 0, matrices);
 
             context.fill(xRightPadding, yPadding,
                     this.width(),
                     this.height() - yPadding,
                     ColorUtils.forOpacity(progressColor, (float)progressDisplay).getColor());
 
-            matrices.popPose();
+            matrices.popMatrix();
         }
 
         postBackgroundDrawing(context, startTime);
@@ -234,8 +234,8 @@ public class LinedToast extends MorphClientObject implements Toast
         postTextDrawing(context, startTime);
 
         // Draw CoverLine
-        matrices.pushPose();
-        matrices.translate(0, 0, 128);
+        matrices.pushMatrix();
+        matrices.translate(0, 0, matrices);
 
         var lineWidth = Math.min(outlineWidth.get(), this.width() - xRightPadding);
 
@@ -251,7 +251,7 @@ public class LinedToast extends MorphClientObject implements Toast
                 this.width() - xLeftPadding, this.height() - yPadding,
                 borderColor.getColor());
 
-        matrices.popPose();
+        matrices.popMatrix();
 
         postDraw(context, startTime);
 

@@ -1,5 +1,6 @@
 package xyz.nifeather.morph.client.graphics.toasts;
 
+import org.joml.Vector2f;
 import org.joml.Vector3f;
 import xyz.nifeather.morph.client.graphics.Anchor;
 import xyz.nifeather.morph.client.graphics.EntityDisplay;
@@ -98,12 +99,15 @@ public class DisguiseEntryToast extends LinedToast
         super.postBackgroundDrawing(context, startTime);
 
         // Push a new entry to allow us to do some tricks
-        matrices.pushPose();
+        matrices.pushMatrix();
 
         // Draw entity
         // Make entity display more pixel-perfect
-        matrices.translate(0, 0.5, 0);
-        var pos = matrices.last().pose().getTranslation(new Vector3f(0, 0, 0));
+        matrices.translate(0, 0.5f, matrices);
+        //var pos = matrices.last().pose().getTranslation(new Vector3f(0, 0, 0));
+
+        //todo: IMplement this
+        Vector2f pos = new Vector2f(0, 0);
 
         int mX = (int)pos.x() - 30;
         int mY = (int)pos.y() + (this.height() / 2);
@@ -113,7 +117,7 @@ public class DisguiseEntryToast extends LinedToast
         entityDisplay.render(context, mX, mY, 0);
 
         // Pop back
-        matrices.popPose();
+        matrices.popMatrix();
     }
 
     @Override

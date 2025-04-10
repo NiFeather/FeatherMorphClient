@@ -103,13 +103,13 @@ public class HudRenderHelper extends MorphClientObject
 
         try
         {
-            matrices.pushPose();
+            matrices.pushMatrix();
 
             renderBar(context, renderTickCounter);
         }
         finally
         {
-            matrices.popPose();
+            matrices.popMatrix();
         }
     }
 
@@ -138,7 +138,7 @@ public class HudRenderHelper extends MorphClientObject
 
         // 先位移到屏幕外面
         // 然后再位移到屏幕里面
-        matrices.translate(barHeightRecorder.get() + 2, windowHeight - height - 2, 0);
+        matrices.translate(barHeightRecorder.get() + 2, windowHeight - height - 2, matrices);
 
         context.renderOutline(0, 0, width, height, bgColorRecord.get().darker(1.3).getColor());
 
@@ -161,7 +161,7 @@ public class HudRenderHelper extends MorphClientObject
         var matrices = context.pose();
 
         //logger.info("H " + heightRecorder.get());
-        matrices.translate(0, progressHeightRecorder.get(), 0);
+        matrices.translate(0, progressHeightRecorder.get(), matrices);
 
         //var width = context.getScaledWindowWidth();
         var scale = width - Math.round(width * (revDisplayRecorder.get() / 100));

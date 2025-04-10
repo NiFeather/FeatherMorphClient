@@ -6,6 +6,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector2i;
 import xyz.nifeather.morph.client.MorphClientObject;
+import xyz.nifeather.morph.client.graphics.color.ColorUtils;
+import xyz.nifeather.morph.client.graphics.color.MaterialColors;
 import xyz.nifeather.morph.client.graphics.transforms.Recorder;
 import xyz.nifeather.morph.client.graphics.transforms.Transformer;
 import xyz.nifeather.morph.client.graphics.transforms.easings.Easing;
@@ -483,20 +485,11 @@ public abstract class MDrawable extends MorphClientObject implements IMDrawable
     {
     }
 
-    protected void setShaderColor(GuiGraphics context, float red, float green, float blue, float alpha)
-    {
-        // 在1.21.1的DrawContext中，他们是这样处理context#setShaderColor的
-        // 我们需要在设定ShaderColor前先让上下文绘制当前提交的所有调用
-
-        context.flush();
-        RenderSystem.setShaderColor(red, green, blue, alpha);
-    }
-
     @Override
     public final void render(GuiGraphics context, int mouseX, int mouseY, float delta)
     {
         var matrices = context.pose();
-        matrices.pushPose();
+        matrices.pushMatrix();
 
         var hovered = this.hovered;
         this.hovered = mouseX < this.screenSpaceX + width && mouseX > this.screenSpaceX
@@ -512,22 +505,15 @@ public abstract class MDrawable extends MorphClientObject implements IMDrawable
 
         if (this.alpha.get() == 0f)
         {
-            matrices.popPose();
+            matrices.popMatrix();
             return;
         }
 
-        var shaderColor = RenderSystem.getShaderColor();
-        shaderColor = new float[]
-                {
-                        shaderColor[0],
-                        shaderColor[1],
-                        shaderColor[2],
-                        shaderColor[3]
-                };
+        //masking = false;
 
         try
         {
-            this.setShaderColor(context, shaderColor[0], shaderColor[1], shaderColor[2], shaderColor[3] * this.alpha.get());
+            //this.setShaderColor(context, shaderColor[0], shaderColor[1], shaderColor[2], shaderColor[3] * this.alpha.get());
 
             if (!validatePosition()) updatePosition();
             if (!validateLayout()) updateLayout();
@@ -537,12 +523,12 @@ public abstract class MDrawable extends MorphClientObject implements IMDrawable
             //        parentScreenSpace.width(), parentScreenSpace.height(),
             //        ColorUtils.forOpacity(MaterialColors.Orange500, 0.4f).getColor());
 
-            matrices.translate(xScreenSpaceOffset, yScreenSpaceOffset, 1);
+            matrices.translate(xScreenSpaceOffset, yScreenSpaceOffset);
 
             // Render Self rect
             //context.fill(0, 0,
-            //        mcWidth, mcHeight,
-            //        ColorUtils.forOpacity(MaterialColors.Cyan500, 0.4f).getColor());
+             //       renderWidth, renderHeight,
+              //      ColorUtils.forOpacity(MaterialColors.Cyan500, 0.4f).getColor());
 
             // 嵌套遮罩有问题
             if (masking)
@@ -560,10 +546,10 @@ public abstract class MDrawable extends MorphClientObject implements IMDrawable
         }
         finally
         {
-            matrices.translate(-xScreenSpaceOffset, -yScreenSpaceOffset, -1);
-            matrices.popPose();
+            matrices.translate(-xScreenSpaceOffset, -yScreenSpaceOffset);
+            matrices.popMatrix();
 
-            this.setShaderColor(context, shaderColor[0], shaderColor[1], shaderColor[2], shaderColor[3]);
+            //this.setShaderColor(context, shaderColor[0], shaderColor[1], shaderColor[2], shaderColor[3]);
 
             if (masking)
                 context.disableScissor();

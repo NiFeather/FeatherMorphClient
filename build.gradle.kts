@@ -46,6 +46,7 @@ dependencies {
     mappings(loom.officialMojangMappings())
     modImplementation("net.fabricmc:fabric-loader:${project.property("loader_version")}")
 
+    //modApi("com.terraformersmc:modmenu:${project.property("modmenu_version")}")
     modApi("me.shedaniel.cloth:cloth-config-fabric:${project.property("clothconfig_version")}") {
         exclude(group = "net.fabricmc.fabric-api")
     }
@@ -59,7 +60,6 @@ dependencies {
     //modApi("maven.modrinth:entity-model-features:2.4.3")
     modImplementation("com.github.XiaMoZhiShi:feathermorph-protocols:$protocolVersion")
     modImplementation("me.shedaniel.cloth:cloth-config-fabric:${project.property("clothconfig_version")}")
-    modImplementation("com.terraformersmc:modmenu:${project.property("modmenu_version")}")
     modImplementation("net.fabricmc.fabric-api:fabric-api:${project.property("fabric_version")}")
 
     include("com.github.XiaMoZhiShi:feathermorph-protocols:$protocolVersion")

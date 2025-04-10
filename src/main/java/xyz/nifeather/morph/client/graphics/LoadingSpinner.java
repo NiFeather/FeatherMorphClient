@@ -2,6 +2,7 @@ package xyz.nifeather.morph.client.graphics;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 
@@ -20,7 +21,7 @@ public class LoadingSpinner extends MDrawable
     {
         //RenderSystem.enableBlend();
 
-        context.blitSprite(RenderType::guiTextured, LOADING_TEX, 0, 0, this.renderWidth, this.renderHeight);
+        context.blitSprite(RenderPipelines.GUI_TEXTURED, LOADING_TEX, 0, 0, this.renderWidth, this.renderHeight);
         super.onRender(context, mouseX, mouseY, delta);
     }
 }
