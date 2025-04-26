@@ -1,9 +1,16 @@
 package xyz.nifeather.morph.client.screens;
 
+import com.mojang.blaze3d.buffers.GpuBufferSlice;
+import com.mojang.blaze3d.systems.RenderPass;
 import com.mojang.blaze3d.systems.RenderSystem;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import net.minecraft.client.renderer.DynamicUniforms;
+import net.minecraft.client.renderer.RenderPipelines;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Matrix4f;
+import org.joml.Vector3f;
+import org.joml.Vector4f;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xyz.nifeather.morph.client.FeatherMorphClient;
@@ -18,6 +25,8 @@ import xyz.nifeather.morph.client.utilties.MathUtils;
 import xyz.nifeather.morph.client.utilties.Screens;
 
 import java.util.List;
+import java.util.OptionalDouble;
+import java.util.OptionalInt;
 import java.util.concurrent.atomic.AtomicBoolean;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -157,20 +166,29 @@ public abstract class FeatherScreen extends Screen implements IMDrawable
         if (!layoutValid.get())
             this.rebuildWidgets();
 
-        var shaderColor = RenderSystem.getShaderColor();
-        shaderColor = new float[]
-                {
-                        shaderColor[0],
-                        shaderColor[1],
-                        shaderColor[2],
-                        shaderColor[3]
-                };
+        var pipeline = RenderPipelines.GUI;
+        var renderTarget = Minecraft.getInstance().getMainRenderTarget();
+        var colorTex = renderTarget.getColorTexture();
+        var depthTex = renderTarget.getDepthTexture();
 
-        RenderSystem.setShaderColor(shaderColor[0], shaderColor[1], shaderColor[2], shaderColor[3] * this.alpha.get());
+        var matrix4fStack = RenderSystem.getModelViewMatrix();
 
-        super.render(context, mouseX, mouseY, delta);
+        GpuBufferSlice[] gpuBufferSlices = RenderSystem.getDynamicUniforms()
+                .writeTransforms(
+                        new DynamicUniforms.Transform(new Matrix4f(matrix4fStack), new Vector4f(1F, 1F, 1F, 0.3F), new Vector3f(), new Matrix4f(), 4.0F)
+                );
 
-        RenderSystem.setShaderColor(shaderColor[0], shaderColor[1], shaderColor[2], shaderColor[3]);
+        try (var renderPass = RenderSystem.getDevice()
+                .createCommandEncoder()
+                .createRenderPass(colorTex, OptionalInt.empty(), depthTex, OptionalDouble.empty()))
+        {
+            renderPass.setPipeline(pipeline);
+            RenderSystem.bindDefaultUniforms(renderPass);
+
+            renderPass.setUniform("DynamicTransforms", gpuBufferSlices[0]);
+
+            super.render(context, mouseX, mouseY, delta);
+        }
     }
 
     @Override
@@ -331,32 +349,6 @@ public abstract class FeatherScreen extends Screen implements IMDrawable
     {
         Minecraft.getInstance().setScreen(screen);
     }
-
-    //region Alpha
-
-    protected final Recorder<Float> alpha = new Recorder<Float>(1f);
-
-    public void setAlpha(float newVal)
-    {
-        this.alpha.set(newVal);
-    }
-
-    public void fadeTo(float newVal, long duration, Easing easing)
-    {
-        Transformer.transform(alpha, MathUtils.clamp(0f, 1f, newVal), duration, easing);
-    }
-
-    public void fadeIn(long duration, Easing easing)
-    {
-        this.fadeTo(1, duration, easing);
-    }
-
-    public void fadeOut(long duration, Easing easing)
-    {
-        this.fadeTo(0, duration, easing);
-    }
-
-    //endregion Alpha
 
     //region Narratable Selectable
 

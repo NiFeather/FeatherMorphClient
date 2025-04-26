@@ -125,53 +125,20 @@ public class HudRenderHelper extends MorphClientObject
         var windowHeight = context.guiHeight();
         var matrices = context.pose();
 
-        var shaderColor = RenderSystem.getShaderColor();
-        shaderColor = new float[]
-        {
-            shaderColor[0],
-            shaderColor[1],
-            shaderColor[2],
-            shaderColor[3]
-        };
-
-        RenderSystem.setShaderColor(1, 1, 1, drawAlpha.get());
+        var renderColor = ColorUtils.forOpacity(bgColorRecord.get(), drawAlpha.get());
 
         // 先位移到屏幕外面
         // 然后再位移到屏幕里面
         matrices.translate(barHeightRecorder.get() + 2, windowHeight - height - 2, matrices);
 
-        context.renderOutline(0, 0, width, height, bgColorRecord.get().darker(1.3).getColor());
+        context.renderOutline(0, 0, width, height, renderColor.darker(1.3).getColor());
 
         // 填充背景
-        context.fill(padding, padding, width - padding, height - padding, bgColorRecord.get().getColor());
+        context.fill(padding, padding, width - padding, height - padding, renderColor.getColor());
 
         // 填充进度
         var barStart = padding + Math.round((height - padding * 2) * (revDisplayRecorder.get() / 100));
         var barEnd = height - padding;
         context.fill(padding, barStart, width - padding, barEnd, colorRecord.get().getColor());
-
-        RenderSystem.setShaderColor(shaderColor[0], shaderColor[1], shaderColor[2], shaderColor[3]);
-    }
-
-    public void renderProgress(GuiGraphics context, DeltaTracker renderTickCounter)
-    {
-        var width = context.guiWidth();
-
-        var height = 2;
-        var matrices = context.pose();
-
-        //logger.info("H " + heightRecorder.get());
-        matrices.translate(0, progressHeightRecorder.get(), matrices);
-
-        //var width = context.getScaledWindowWidth();
-        var scale = width - Math.round(width * (revDisplayRecorder.get() / 100));
-        // var scale30 = Math.round(width * 0.2f);
-        // var scale80 = Math.round(width * 0.8f);
-
-        // Base W
-        context.fill(0, 0, context.guiWidth(), height, ColorUtils.forOpacity(bgColorRecord.get(), 0.6f).getColor());
-
-        // Progress
-        context.fill(0, 0, scale, height, colorRecord.get().getColor());
     }
 }

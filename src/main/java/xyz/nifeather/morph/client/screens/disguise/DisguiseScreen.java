@@ -1,12 +1,8 @@
 package xyz.nifeather.morph.client.screens.disguise;
 
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import net.minecraft.client.gui.components.PlayerSkinWidget;
-import net.minecraft.client.gui.render.GuiLayer;
-import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.renderer.RenderPipelines;
 import org.jetbrains.annotations.Nullable;
-import org.joml.Vector3f;
 import xyz.nifeather.morph.client.ClientMorphManager;
 import xyz.nifeather.morph.client.EntityCache;
 import xyz.nifeather.morph.client.FeatherMorphClient;
@@ -16,7 +12,6 @@ import xyz.nifeather.morph.client.graphics.color.Colors;
 import xyz.nifeather.morph.client.graphics.color.MaterialColors;
 import xyz.nifeather.morph.client.graphics.container.*;
 import xyz.nifeather.morph.client.graphics.transforms.Recorder;
-import xyz.nifeather.morph.client.mixin.InventoryScreenMixin;
 import xyz.nifeather.morph.client.screens.FeatherScreen;
 import xyz.nifeather.morph.client.screens.WaitingForServerScreen;
 import xiamomc.pluginbase.Bindables.Bindable;
@@ -33,7 +28,6 @@ import net.minecraft.client.gui.navigation.ScreenPosition;
 import net.minecraft.client.gui.navigation.ScreenRectangle;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.model.geom.builders.UVPair;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;

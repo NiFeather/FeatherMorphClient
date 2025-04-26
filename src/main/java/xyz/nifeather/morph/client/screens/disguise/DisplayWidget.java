@@ -291,8 +291,10 @@ public class DisplayWidget extends MorphClientObject implements NarratableEntry,
         }
         finally
         {
+            context.depthTreeUp();
             context.drawString(textRenderer, display,
                     screenSpaceX + 10, (screenSpaceY + Math.round((height - textRenderer.lineHeight) / 2f)), 0xffffffff);
+            context.depthTreeDown();
 
             matrices.popMatrix();
         }

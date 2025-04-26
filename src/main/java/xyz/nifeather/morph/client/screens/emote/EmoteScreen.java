@@ -2,6 +2,7 @@ package xyz.nifeather.morph.client.screens.emote;
 
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector2i;
+import xyz.nifeather.morph.client.screens.TestScreen;
 import xyz.nifeather.morph.shared.AnimationNames;
 import xyz.nifeather.morph.client.ClientMorphManager;
 import xyz.nifeather.morph.client.FeatherMorphClient;
@@ -90,9 +91,6 @@ public class EmoteScreen extends SpinnerScreen<SingleEmoteWidget>
         this.add(titleText);
         this.add(currentAnimText);
 
-        this.alpha.set(0f);
-        this.fadeIn(500, Easing.OutQuint);
-
         var serverHandler = FeatherMorphClient.getInstance().serverHandler;
         this.serverReady.bindTo(serverHandler.serverReady);
 
@@ -106,6 +104,13 @@ public class EmoteScreen extends SpinnerScreen<SingleEmoteWidget>
         }, true);
 
         updateEmoteText(morphManager.emoteDisplayName);
+    }
+
+    @Override
+    protected void onScreenEnter(@Nullable Screen lastScreen)
+    {
+        this.push(new TestScreen());
+        super.onScreenEnter(lastScreen);
     }
 
     private final ServerHandler serverHandler;
