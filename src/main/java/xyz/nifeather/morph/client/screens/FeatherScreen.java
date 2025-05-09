@@ -166,29 +166,7 @@ public abstract class FeatherScreen extends Screen implements IMDrawable
         if (!layoutValid.get())
             this.rebuildWidgets();
 
-        var pipeline = RenderPipelines.GUI;
-        var renderTarget = Minecraft.getInstance().getMainRenderTarget();
-        var colorTex = renderTarget.getColorTexture();
-        var depthTex = renderTarget.getDepthTexture();
-
-        var matrix4fStack = RenderSystem.getModelViewMatrix();
-
-        GpuBufferSlice[] gpuBufferSlices = RenderSystem.getDynamicUniforms()
-                .writeTransforms(
-                        new DynamicUniforms.Transform(new Matrix4f(matrix4fStack), new Vector4f(1F, 1F, 1F, 0.3F), new Vector3f(), new Matrix4f(), 4.0F)
-                );
-
-        try (var renderPass = RenderSystem.getDevice()
-                .createCommandEncoder()
-                .createRenderPass(colorTex, OptionalInt.empty(), depthTex, OptionalDouble.empty()))
-        {
-            renderPass.setPipeline(pipeline);
-            RenderSystem.bindDefaultUniforms(renderPass);
-
-            renderPass.setUniform("DynamicTransforms", gpuBufferSlices[0]);
-
-            super.render(context, mouseX, mouseY, delta);
-        }
+        super.render(context, mouseX, mouseY, delta);
     }
 
     @Override

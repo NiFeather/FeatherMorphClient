@@ -21,21 +21,7 @@ public class DisguisePreviewDisplay extends EntityDisplay
     @Override
     protected void onRender(GuiGraphics context, int mouseX, int mouseY, float delta)
     {
-        var matrices = context.pose();
-
-        matrices.pushMatrix();
-
-        var mX = Math.round(this.getScreenSpaceX() + this.getRenderWidth() / 2f - 30);
-        var mY = Math.round(this.getScreenSpaceY() + this.getRenderHeight() / 2f);
-
-        try
-        {
-            super.onRender(context, mX, mY, delta);
-        }
-        finally
-        {
-            matrices.popMatrix();
-        }
+        super.onRender(context, mouseX, mouseY, delta);
     }
 
     @Override

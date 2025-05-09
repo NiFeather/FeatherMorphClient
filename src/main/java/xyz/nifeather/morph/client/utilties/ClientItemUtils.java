@@ -2,9 +2,14 @@ package xyz.nifeather.morph.client.utilties;
 
 import com.google.gson.Gson;
 import com.mojang.serialization.JsonOps;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+
+import java.util.Optional;
 
 public class ClientItemUtils
 {
@@ -32,6 +37,11 @@ public class ClientItemUtils
         }
 
         return "{\"id\":\"minecraft:air\",\"Count\":1}";
+    }
+
+    public static Optional<ItemStack> fromCompound(HolderLookup.Provider provider, CompoundTag nbt)
+    {
+        return ItemStack.CODEC.parse(provider.createSerializationContext(NbtOps.INSTANCE), nbt).result();
     }
 
     public static boolean isAir(ItemStack stack)
