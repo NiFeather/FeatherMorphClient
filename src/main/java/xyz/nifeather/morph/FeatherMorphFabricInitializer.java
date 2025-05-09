@@ -1,5 +1,6 @@
 package xyz.nifeather.morph;
 
+import com.llamalad7.mixinextras.sugar.Share;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.ConfigHolder;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
@@ -45,6 +46,7 @@ public class FeatherMorphFabricInitializer implements ModInitializer
         modConfigData = configHolder.getConfig();
 
         SharedValues.allowSinglePlayerDebugging = modConfigData.singlePlayerDebugging;
+        SharedValues.applyPictureInPictureWorkaround = modConfigData.enablePictureInPictureWorkaround;
 
         // 注册Payload
 

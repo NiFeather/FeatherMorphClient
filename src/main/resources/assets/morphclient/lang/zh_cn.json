@@ -39,6 +39,7 @@
   "option.morphclient.nametag_scaling": "根据距离缩放揭示标签",
   "option.morphclient.smoothscroll.name": "伪装选择中的平滑滚动",
   "option.morphclient.smoothscroll.description": "禁用此选项可能会改进和 Smooth Scrolling 的兼容",
+  "option.morphclient.pip_workaround": "启用画中画渲染缓解方案",
   "title.morphclient.config": "FeatherMorph客户端设置",
   "text.morphclient.error.update_disguise1": "更新伪装时出现错误",
   "text.morphclient.error.update_disguise2": "在当前伪装变更前客户端预览将被禁用以避免游戏崩溃",

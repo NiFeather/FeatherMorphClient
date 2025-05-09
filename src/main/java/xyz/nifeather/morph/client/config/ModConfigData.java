@@ -34,6 +34,8 @@ public class ModConfigData implements ConfigData
 
     public boolean disguiseListSmoothScroll = true;
 
+    public boolean enablePictureInPictureWorkaround = true;
+
     public boolean clientViewVisible()
     {
         return FeatherMorphClient.getInstance().morphManager.selfVisibleEnabled.get() && allowClientView;

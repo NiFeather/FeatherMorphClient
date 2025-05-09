@@ -1,5 +1,6 @@
 package xyz.nifeather.morph.client;
 
+import com.llamalad7.mixinextras.sugar.Share;
 import com.mojang.blaze3d.platform.InputConstants;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import me.shedaniel.autoconfig.AutoConfig;
@@ -481,6 +482,15 @@ public class FeatherMorphClient extends XiaMoJavaPlugin implements ClientModInit
                                     SharedValues.allowSinglePlayerDebugging = v;
                                     modConfigData.singlePlayerDebugging = v;
                                 })
+                        .build()
+        ).addEntry(
+                entryBuilder.startBooleanToggle(Component.translatable("option.morphclient.pip_workaround"), SharedValues.applyPictureInPictureWorkaround)
+                        .setDefaultValue(true)
+                        .setSaveConsumer(v ->
+                        {
+                            SharedValues.applyPictureInPictureWorkaround = v;
+                            modConfigData.enablePictureInPictureWorkaround = v;
+                        })
                         .build()
         );
 

@@ -25,6 +25,8 @@
     "HeldItemRendererMixin",
     "InventoryScreenMixin",
     "MinecraftClientMixin",
+    "GuiRenderMixin",
+    "PictureInPictureRendererMixin",
     "MorphClientEntityMixin",
     "PlayerEntityRendererMixin",
     "PlayerMixin",
