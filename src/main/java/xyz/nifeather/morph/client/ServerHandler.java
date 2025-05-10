@@ -20,6 +20,7 @@ import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.util.Identifier;
 import xyz.nifeather.morph.client.config.ModConfigData;
 import xyz.nifeather.morph.client.entities.IMorphClientEntity;
+import xyz.nifeather.morph.client.entities.IMorphClientPlayer;
 import xyz.nifeather.morph.client.network.commands.ClientSetEquipCommand;
 import xyz.nifeather.morph.shared.SharedValues;
 import xyz.nifeather.morph.shared.payload.*;
@@ -361,7 +362,10 @@ public class ServerHandler extends MorphClientObject implements BasicServerHandl
     @Override
     public void onSetSneakingCommand(S2CSetSneakingCommand s2CSetSneakingCommand)
     {
-        serverSideSneaking = s2CSetSneakingCommand.getArgumentAt(0);
+        if (!(MinecraftClient.getInstance().player instanceof IMorphClientPlayer player))
+            return;
+
+        player.morphclient$setServerSneaking(Boolean.TRUE.equals(s2CSetSneakingCommand.getArgumentAt(0)));
     }
 
     @Override
@@ -673,7 +677,7 @@ public class ServerHandler extends MorphClientObject implements BasicServerHandl
         logger.info("Server API version: " + serverVersion);
     }
 
-    public static Boolean serverSideSneaking;
+    //public static Boolean serverSideSneaking;
 
     //endregion Network
 }
