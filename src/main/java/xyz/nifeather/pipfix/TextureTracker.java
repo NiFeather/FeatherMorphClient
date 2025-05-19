@@ -1,9 +1,8 @@
-package xyz.nifeather.morph.client.graphics;
+package xyz.nifeather.pipfix;
 
 import com.mojang.blaze3d.textures.GpuTexture;
 import com.mojang.blaze3d.textures.GpuTextureView;
 import org.jetbrains.annotations.NotNull;
-import xyz.nifeather.morph.client.FeatherMorphClient;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -24,6 +23,9 @@ public class TextureTracker
     {
         synchronized (trackingTextures)
         {
+            if (trackingTextures.isEmpty())
+                return;
+
             trackingTextures.forEach((tex, view) ->
             {
                 tex.close();

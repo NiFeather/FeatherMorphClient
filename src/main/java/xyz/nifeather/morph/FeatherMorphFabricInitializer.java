@@ -14,6 +14,7 @@ import xyz.nifeather.morph.server.MorphServerLoader;
 import xyz.nifeather.morph.shared.SharedValues;
 import xyz.nifeather.morph.shared.commands.arguments.RelaxedStringArgumentType;
 import xyz.nifeather.morph.shared.payload.*;
+import xyz.nifeather.pipfix.Values;
 
 public class FeatherMorphFabricInitializer implements ModInitializer
 {
@@ -46,7 +47,7 @@ public class FeatherMorphFabricInitializer implements ModInitializer
         modConfigData = configHolder.getConfig();
 
         SharedValues.allowSinglePlayerDebugging = modConfigData.singlePlayerDebugging;
-        SharedValues.applyPictureInPictureWorkaround = modConfigData.enablePictureInPictureWorkaround;
+        Values.applyPictureInPictureWorkaround = modConfigData.enablePictureInPictureWorkaround;
 
         // 注册Payload
 

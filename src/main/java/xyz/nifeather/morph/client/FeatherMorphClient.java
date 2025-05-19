@@ -46,6 +46,7 @@ import xiamomc.morph.network.Constants;
 import xiamomc.morph.network.commands.C2S.*;
 import xiamomc.morph.network.commands.S2C.S2CRequestCommand;
 import xyz.nifeather.morph.shared.SharedValues;
+import xyz.nifeather.pipfix.Values;
 
 import java.io.File;
 import java.util.List;
@@ -484,11 +485,11 @@ public class FeatherMorphClient extends XiaMoJavaPlugin implements ClientModInit
                                 })
                         .build()
         ).addEntry(
-                entryBuilder.startBooleanToggle(Component.translatable("option.morphclient.pip_workaround"), SharedValues.applyPictureInPictureWorkaround)
+                entryBuilder.startBooleanToggle(Component.translatable("option.morphclient.pip_workaround"), Values.applyPictureInPictureWorkaround)
                         .setDefaultValue(true)
                         .setSaveConsumer(v ->
                         {
-                            SharedValues.applyPictureInPictureWorkaround = v;
+                            Values.applyPictureInPictureWorkaround = v;
                             modConfigData.enablePictureInPictureWorkaround = v;
                         })
                         .build()

@@ -1,8 +1,7 @@
-package xyz.nifeather.morph.client.mixin;
+package xyz.nifeather.pipfix.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.llamalad7.mixinextras.sugar.Share;
 import com.mojang.blaze3d.ProjectionType;
 import com.mojang.blaze3d.systems.GpuDevice;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -17,8 +16,8 @@ import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import xyz.nifeather.morph.client.graphics.TextureTracker;
-import xyz.nifeather.morph.shared.SharedValues;
+import xyz.nifeather.pipfix.TextureTracker;
+import xyz.nifeather.pipfix.Values;
 
 @Mixin(PictureInPictureRenderer.class)
 public abstract class PictureInPictureRendererMixin<T extends PictureInPictureRenderState>
@@ -36,11 +35,11 @@ public abstract class PictureInPictureRendererMixin<T extends PictureInPictureRe
     @Shadow @Final private CachedOrthoProjectionMatrixBuffer projectionMatrixBuffer;
 
     @WrapMethod(method = "prepareTexturesAndProjection")
-    public void fmc$prepareTexture(int i, int j, Operation<Void> original)
+    public void fmc$prepareTexture(int width, int height, Operation<Void> original)
     {
-        if (!SharedValues.applyPictureInPictureWorkaround)
+        if (!Values.applyPictureInPictureWorkaround)
         {
-            original.call(i, j);
+            original.call(width, height);
             return;
         }
 
@@ -49,16 +48,17 @@ public abstract class PictureInPictureRendererMixin<T extends PictureInPictureRe
         String textureName = "UI " + this.getTextureLabel() + " texture";
         String depthTextureName = "UI " + this.getTextureLabel() + " depth texture";
 
-        this.texture = gpuDevice.createTexture(() -> textureName, 12, TextureFormat.RGBA8, i, j, 1, 1);
+        this.texture = gpuDevice.createTexture(() -> textureName, 12, TextureFormat.RGBA8, width, height, 1, 1);
         this.texture.setTextureFilter(FilterMode.NEAREST, false);
         this.textureView = gpuDevice.createTextureView(this.texture);
-        this.depthTexture = gpuDevice.createTexture(() -> depthTextureName, 8, TextureFormat.DEPTH32, i, j, 1, 1);
+
+        this.depthTexture = gpuDevice.createTexture(() -> depthTextureName, 8, TextureFormat.DEPTH32, width, height, 1, 1);
         this.depthTextureView = gpuDevice.createTextureView(this.depthTexture);
 
         TextureTracker.addTrackingTexture(this.texture, this.textureView);
         TextureTracker.addTrackingTexture(this.depthTexture, this.depthTextureView);
 
         gpuDevice.createCommandEncoder().clearColorAndDepthTextures(this.texture, 0, this.depthTexture, 1.0);
-        RenderSystem.setProjectionMatrix(this.projectionMatrixBuffer.getBuffer(i, j), ProjectionType.ORTHOGRAPHIC);
+        RenderSystem.setProjectionMatrix(this.projectionMatrixBuffer.getBuffer(width, height), ProjectionType.ORTHOGRAPHIC);
     }
 }

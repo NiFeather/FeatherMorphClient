@@ -3,7 +3,8 @@ package xyz.nifeather.morph.shared;
 import net.minecraft.resources.ResourceLocation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import xyz.nifeather.morph.client.mixin.PictureInPictureRendererMixin;
+import xyz.nifeather.pipfix.mixin.PictureInPictureRendererMixin;
+import xyz.nifeather.pipfix.mixin.GuiRenderMixin;
 
 public class SharedValues
 {
@@ -23,10 +24,4 @@ public class SharedValues
     public static ResourceLocation commandChannelIdentifierLegacy = ResourceLocation.fromNamespaceAndPath(morphNameSpace, "commands");
 
     public static boolean client_UseNewPacketSerializeMethod = false;
-
-    /**
-     * See {@link PictureInPictureRendererMixin} and {@link xyz.nifeather.morph.client.mixin.GuiRenderMixin}
-     * If set to false, these mixins will not operate
-     */
-    public static boolean applyPictureInPictureWorkaround = true;
 }
