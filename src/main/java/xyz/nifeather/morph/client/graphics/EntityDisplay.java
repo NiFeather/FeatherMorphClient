@@ -27,6 +27,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
 import xyz.nifeather.morph.client.entities.MorphLocalPlayer;
 import xyz.nifeather.morph.client.syncers.ClientDisguiseSyncer;
+import xyz.nifeather.morph.shared.SharedValues;
 
 public class EntityDisplay extends MDrawable
 {
@@ -297,30 +298,12 @@ public class EntityDisplay extends MDrawable
 
             PlayerRenderHelper.instance().skipRender = true;
 
-            //workaround: Rendering more than player entities would lead to chaos
-            if (displayingEntity instanceof MorphLocalPlayer player && !this.isClientPlayerOrDisguise(displayingEntity))
-            {
-                var renderModelPart = Minecraft.getInstance().getEntityModels()
-                        .bakeLayer(player.getSkin().model() == PlayerSkin.Model.SLIM ? ModelLayers.PLAYER_SLIM : ModelLayers.PLAYER);
-
-                var playerModel = new PlayerModel(renderModelPart, player.getSkin().model() == PlayerSkin.Model.SLIM);
-
-                float rotationX = 0f;
-                float rotationY = -30f;
-
-                float g = 0.97F * this.getRenderHeight() / 2.125F;
-                context.submitSkinRenderState(playerModel, player.getSkin().texture(), g, rotationX, rotationY, -1.0625F,
-                        xStart, yStart, xEnd, yEnd);
-            }
-            else
-            {
-                InventoryScreen.renderEntityInInventoryFollowsMouse(context,
-                        xStart, yStart, xEnd, yEnd,
-                        scale * initialEntitySize.get(),
-                        0.0625f + entityYOffset,
-                        (float)xStart - renderWidth * 1.5f, (float)yStart,
-                        displayingEntity);
-            }
+            InventoryScreen.renderEntityInInventoryFollowsMouse(context,
+                    xStart, yStart, xEnd, yEnd,
+                    scale * initialEntitySize.get(),
+                    0.0625f + entityYOffset,
+                    (float)xStart - renderWidth * 1.5f, (float)yStart,
+                    displayingEntity);
 
             context.pose().translate(xStart, yStart);
 

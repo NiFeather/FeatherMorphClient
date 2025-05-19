@@ -26,7 +26,8 @@
   },
   "mixins": [
     "client.mixins.json",
-    "pipfix.mixins.json"
+    "pipfix.mixins.json",
+    "guifix.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=${loader_version}",
