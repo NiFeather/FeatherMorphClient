@@ -12,7 +12,6 @@ import net.minecraft.world.entity.LivingEntity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.LoggerFactory;
-import xyz.nifeather.guiworkaround.GuiWorkaroundValues;
 import xyz.nifeather.morph.client.EntityCache;
 import xyz.nifeather.morph.client.FeatherMorphClientBootstrap;
 import xyz.nifeather.morph.client.graphics.color.MaterialColors;
@@ -290,14 +289,12 @@ public class EntityDisplay extends MDrawable
 
             PlayerRenderHelper.instance().skipRender = true;
 
-            GuiWorkaroundValues.forceNewRenderState = true;
             InventoryScreen.renderEntityInInventoryFollowsMouse(context,
                     xStart, yStart, xEnd, yEnd,
                     scale * initialEntitySize.get(),
                     0.0625f + entityYOffset,
                     (float)mouseX, mouseY,
                     displayingEntity);
-            GuiWorkaroundValues.forceNewRenderState = false;
 
             context.pose().translate(xStart, yStart);
 

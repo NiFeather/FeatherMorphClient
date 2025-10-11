@@ -19,7 +19,6 @@ import xyz.nifeather.morph.shared.payload.V3MorphCommandPayload;
 import xyz.nifeather.morph.shared.payload.V3MorphInitChannelPayload;
 import xyz.nifeather.morph.shared.platform.Services;
 import xyz.nifeather.morph.shared.payload.*;
-import xyz.nifeather.pipfix.PipFixValues;
 
 public class FeatherMorphCommonBootstrap
 {
@@ -41,7 +40,6 @@ public class FeatherMorphCommonBootstrap
         modConfigData = configHolder.getConfig();
 
         SharedValues.allowSinglePlayerDebugging = modConfigData.singlePlayerDebugging;
-        PipFixValues.applyPictureInPictureWorkaround = modConfigData.enablePictureInPictureWorkaround;
 
         // 注册Payload
         PayloadTypeRegistry.playS2C().register(V3MorphInitChannelPayload.id, V3MorphInitChannelPayload.CODEC);

@@ -42,7 +42,6 @@ import xyz.nifeather.morph.network.commands.C2S.C2SUnmorphCommand;
 import xyz.nifeather.morph.network.commands.S2C.S2CUpdateRequestStatusCommand;
 import xyz.nifeather.morph.shared.SharedValues;
 import xyz.nifeather.morph.shared.platform.Services;
-import xyz.nifeather.pipfix.PipFixValues;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -472,15 +471,6 @@ public class FeatherMorphClientBootstrap extends XiaMoJavaPlugin
                         {
                             SharedValues.allowSinglePlayerDebugging = v;
                             modConfigData.singlePlayerDebugging = v;
-                        })
-                        .build()
-        ).addEntry(
-                entryBuilder.startBooleanToggle(Component.translatable("option.morphclient.pip_workaround"), PipFixValues.applyPictureInPictureWorkaround)
-                        .setDefaultValue(true)
-                        .setSaveConsumer(v ->
-                        {
-                            PipFixValues.applyPictureInPictureWorkaround = v;
-                            modConfigData.enablePictureInPictureWorkaround = v;
                         })
                         .build()
         );
